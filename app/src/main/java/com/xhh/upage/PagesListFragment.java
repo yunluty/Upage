@@ -78,7 +78,7 @@ public class PagesListFragment extends Fragment
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new PagesListRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new RecyclerViewCursorAdapter(context, mListener));
 
             getLoaderManager().initLoader(0, null, this);
         }
@@ -130,6 +130,6 @@ public class PagesListFragment extends Fragment
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(long id);
     }
 }
