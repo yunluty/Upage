@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.xhh.upage.PagesListFragment.OnListFragmentInteractionListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.SimpleFormatter;
+
 /**
  * Created by xuhuihui on 2017/11/30.
  */
@@ -39,9 +43,9 @@ public class RecyclerViewCursorAdapter extends BaseRecyclerViewCursorAdapter<Rec
     @Override
     public void onBindViewHolder(final ViewHolder holder, Cursor cursor) {
         String title = cursor.getString(cursor.getColumnIndex(UpageUtils.COLUMN_NAME_TITLE));
-        String time = cursor.getString(cursor.getColumnIndex(UpageUtils.COLUMN_NAME_MODIFIED));
+        long time = cursor.getLong(cursor.getColumnIndex(UpageUtils.COLUMN_NAME_MODIFIED));
         holder.mTitleView.setText(title);
-        holder.mTimeView.setText(time);
+        holder.mTimeView.setText(getTimeString(time));
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +54,13 @@ public class RecyclerViewCursorAdapter extends BaseRecyclerViewCursorAdapter<Rec
                 }
             }
         });
+    }
+
+    private String getTimeString(long time) {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        date.setTime(time);
+        return formatter.format(date);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

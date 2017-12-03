@@ -89,7 +89,8 @@ public class UpageContentProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-
+        
+        getContext().getContentResolver().notifyChange(uri, null);
         return row;
     }
 
@@ -181,7 +182,9 @@ public class UpageContentProvider extends ContentProvider {
         SQLiteDatabase db = mDBHelper.getReadableDatabase();
 
         if (db != null) {
-            return qb.query(db, projection, selection, selectionArgs, null, null, sortBy);
+            Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, sortBy);
+            c.setNotificationUri(getContext().getContentResolver(), uri);
+            return c;
         } else {
             return null;
         }
@@ -212,6 +215,7 @@ public class UpageContentProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
 
+        getContext().getContentResolver().notifyChange(uri, null);
         return row;
     }
 }

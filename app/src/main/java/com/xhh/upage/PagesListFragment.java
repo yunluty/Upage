@@ -38,6 +38,7 @@ public class PagesListFragment extends Fragment
 
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private BaseRecyclerViewCursorAdapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,7 +79,8 @@ public class PagesListFragment extends Fragment
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new RecyclerViewCursorAdapter(context, mListener));
+            mAdapter = new RecyclerViewCursorAdapter(context, mListener);
+            recyclerView.setAdapter(mAdapter);
 
             getLoaderManager().initLoader(0, null, this);
         }
@@ -110,7 +112,7 @@ public class PagesListFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        mAdapter.changeCursor(data);
     }
 
     @Override
